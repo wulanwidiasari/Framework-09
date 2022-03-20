@@ -42,27 +42,37 @@ import Post from "../../component/BlogSpot/Post";
 // }
 
 class BlogPost extends Component{
-    state ={
-        listArtikel: []
+    state ={                    // komponen state dari React untuk statefull component
+        listArtikel: []         // variabel arrat yang digunakan untuk menyimpan data API
     }
 
-    componentDidMount(){
-        fetch('https://jsonplaceholder.typicode.com/posts')
-        .then(response => response.json())
-        .then(jsonHasilAmbilDariAPI => {
+    ambilDataDariServerAPI=()=>{
+        fetch('http://localhost:3001/posts')        // alamat URL API yang ingin kita ambil datanya
+        .then(response => response.json())          // ubah response data dari URL API mrnjadi sebuah data json
+        .then(jsonHasilAmbilDariAPI => {            // data json hasil ambil dari API kita masukkan ke dalam listArtikel pada state
             this.setState({
                 listArtikel:jsonHasilAmbilDariAPI
             })
         })
     }
 
+    componentDidMount(){                // komponen untuk mengecek ketika component telah di mount ing, maka panggil API
+        this.ambilDataDariServerAPI()   // ambil data dari server API lokal
+    }
+
+    handleHapusArtikel = (data) =>{
+        fetch('http://localhost:3001/posts/${data}', {method:'DELETE'})
+        .then(res => {
+            this.ambilDataDariServerAPI()
+        })
+    }
     render(){
         return(
-            <div class="post-artikel">
+            <div className="post-artikel">
                 <h2>Daftar Artikel</h2>
                 {
                     this.state.listArtikel.map(artikel =>{
-                        return <Post key={artikel.id} judul={artikel.title} isi={artikel.body}></Post>
+                        return <Post key={artikel.id} judul={artikel.title} isi={artikel.body} idArtikel={artikel.id} hapusArtikel={this.handleHapusArtikel}/>
                     })
                 }
             </div>

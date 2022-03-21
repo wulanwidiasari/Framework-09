@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import './BlogPost.css';
 import Post from "../../component/BlogSpot/Post";
 
@@ -41,66 +41,66 @@ import Post from "../../component/BlogSpot/Post";
 //     }
 // }
 
-class BlogPost extends Component{
-    state ={                    // komponen state dari React untuk statefull component
+class BlogPost extends Component {
+    state = {                    // komponen state dari React untuk statefull component
         listArtikel: [],         // variabel arrat yang digunakan untuk menyimpan data API
         insertArtikel: [],
-            userId:1,
-            id:1,
-            title:"",
-            body:""
+        userId: 1,
+        id: 1,
+        title: "",
+        body: ""
     }
 
-    ambilDataDariServerAPI=()=>{
+    ambilDataDariServerAPI = () => {
         fetch('http://localhost:3001/posts')        // alamat URL API yang ingin kita ambil datanya
-        .then(response => response.json())          // ubah response data dari URL API mrnjadi sebuah data json
-        .then(jsonHasilAmbilDariAPI => {            // data json hasil ambil dari API kita masukkan ke dalam listArtikel pada state
-            this.setState({
-                listArtikel:jsonHasilAmbilDariAPI
+            .then(response => response.json())          // ubah response data dari URL API mrnjadi sebuah data json
+            .then(jsonHasilAmbilDariAPI => {            // data json hasil ambil dari API kita masukkan ke dalam listArtikel pada state
+                this.setState({
+                    listArtikel: jsonHasilAmbilDariAPI
+                })
             })
-        })
     }
 
-    componentDidMount(){                // komponen untuk mengecek ketika component telah di mount ing, maka panggil API
+    componentDidMount() {                // komponen untuk mengecek ketika component telah di mount ing, maka panggil API
         this.ambilDataDariServerAPI()   // ambil data dari server API lokal
     }
 
-    handleHapusArtikel = (data) =>{
-        fetch('http://localhost:3001/posts/${data}', {method:'DELETE'})
-        .then(res => {
-            this.ambilDataDariServerAPI()
-        })
+    handleHapusArtikel = (data) => {
+        fetch(`http://localhost:3001/posts/${data}`, { method: 'DELETE' })
+            .then(res => {
+                this.ambilDataDariServerAPI()
+            })
     }
-    handleTambahArtikel=(event)=>{
-        let formInsertArtikel={...this.state.insertArtikel};
+    handleTambahArtikel = (event) => {
+        let formInsertArtikel = { ...this.state.insertArtikel };
         let timestamp = new Date().getTime();
         formInsertArtikel['id'] = timestamp;
         formInsertArtikel[event.target.name] = event.target.value;
         this.setState({
-            insertArtikel:formInsertArtikel
+            insertArtikel: formInsertArtikel
         });
     }
-    handleTombolSimpan=()=>{
-        fetch('http://localhost:3001/posts',{
-            method:'post',
-            headers:{
-                'Accept':'application/json',
+    handleTombolSimpan = () => {
+        fetch('http://localhost:3001/posts', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(this.state.insertArtikel)
         })
-            .then((Response)=>{
-               this.ambilDataDariServerAPI(); 
+            .then((Response) => {
+                this.ambilDataDariServerAPI();
             });
     }
-    render(){
-        return(
+    render() {
+        return (
             <div className="post-artikel">
                 <div className="form pb-2 border-buttom">
                     <div className="form-group row">
                         <label htmlFor="title" className="col-sm-2 col-form-label">Judul</label>
                         <div className="col-sm-10">
-                            <input type="text" className="form-control" id="title" name="title" onChange={this.handleTambahArtikel}/>
+                            <input type="text" className="form-control" id="title" name="title" onChange={this.handleTambahArtikel} />
                         </div>
                     </div>
                     <div className="form-group row">
@@ -113,8 +113,8 @@ class BlogPost extends Component{
                 </div>
                 <h2>Daftar Artikel</h2>
                 {
-                    this.state.listArtikel.map(artikel =>{
-                        return <Post key={artikel.id} judul={artikel.title} isi={artikel.body} idArtikel={artikel.id} hapusArtikel={this.handleHapusArtikel}/>
+                    this.state.listArtikel.map(artikel => {
+                        return <Post key={artikel.id} judul={artikel.title} isi={artikel.body} idArtikel={artikel.id} hapusArtikel={this.handleHapusArtikel} />
                     })
                 }
             </div>

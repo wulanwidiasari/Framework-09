@@ -1,0 +1,29 @@
+{
+  "mahasiswa": [
+    {
+      "nim": 1941720028,
+      "nama": "Wulan Widiasari",
+      "alamat": "Jl. Kembang Turi",
+      "hp": "0822377893887",
+      "angkatan": 2019,
+      "status": "aktif"
+    },
+    {
+      "nim": "1941720029",
+      "nama": "Nandira",
+      "alamat": "Jl. Kembang Kertas",
+      "hp": "08524119452",
+      "angkatan": "2019",
+      "status": "aktif"
+    },
+    {
+      "nim": "1941720020",
+      "nama": "Wulan",
+      "alamat": "Jl. Kembang Kertas",
+      "hp": "0822377893871",
+      "angkatan": "2019",
+      "status": "aktif",
+      "id": "1941720020"
+    }
+  ]
+}

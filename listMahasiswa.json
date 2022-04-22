@@ -1,20 +1,33 @@
 {
   "mahasiswa": [
     {
-      "nim": 1941720028,
+      "nim": "1941720028",
       "nama": "Wulan Widiasari",
-      "alamat": "Jl. Kembang Turi",
-      "hp": "0822377893887",
-      "angkatan": 2019,
-      "status": "aktif"
+      "alamat": "Kembang Turi",
+      "hp": "+6282237789387",
+      "angkatan": "2019",
+      "status": "Aktif",
+      "id": "1941720028"
     },
     {
       "nim": "1941720029",
-      "nama": "Nandira",
-      "alamat": "Jl. Kembang Kertas",
-      "hp": "08524119452",
-      "angkatan": "2019",
-      "status": "Aktif"
+      "nama": "Widia Wulan",
+      "alamat": "Kembang Turi",
+      "hp": "+6282237789388",
+      "angkatan": "2018",
+      "status": "Lulus",
+      "time": "2022-03-28T02:03:25.413Z",
+      "id": "1941720029"
+    },
+    {
+      "nim": "194172020",
+      "nama": "Redhiya",
+      "alamat": "Kembang Turi",
+      "hp": "+6282237789587",
+      "angkatan": "2018",
+      "status": "Lulus",
+      "time": "2022-03-28",
+      "id": "194172020"
     }
   ]
 }

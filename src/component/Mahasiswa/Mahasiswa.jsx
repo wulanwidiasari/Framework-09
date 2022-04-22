@@ -11,6 +11,7 @@ const Mahasiswa = (props) => {
                 <List title="No. Handphone" value={props.hp} />
                 <List title="Angkatan" value={props.angkatan} />
                 <List title="Status" value={props.status} />
+                <List title="Time" value={props.time} />
                 <center>
                     <button className="btn btn-sm btn-warning" onClick={() => props.hapus(props.nim)}>Hapus</button>
                 </center>

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import './Mahasiswa.css';
 import Mahasiswa from "../../component/Mahasiswa/Mahasiswa";
 
 class ListMahasiswa extends Component {
@@ -12,12 +11,13 @@ class ListMahasiswa extends Component {
             hp: "",
             angkatan: "",
             status: "",
+            time:""
         },
     };
 
 
     ambilDataDariServerAPI = () => {
-        fetch('http://localhost:3002/mahasiswa')
+        fetch('http://localhost:3001/mahasiswa')
             .then(response => response.json())
             .then(jsonHasilAmbilDariAPI => {
                 this.setState({
@@ -32,7 +32,7 @@ class ListMahasiswa extends Component {
     }
 
     handleHapusMahasiswa = (data) => {
-        fetch(`http://localhost:3002/mahasiswa/${data}`, { method: "DELETE" })
+        fetch(`http://localhost:3001/mahasiswa/${data}`, { method: "DELETE" })
             .then(
                 (res) => this.ambilDataDariServerAPI()
             );
@@ -40,8 +40,8 @@ class ListMahasiswa extends Component {
 
     handleTambahMahasiswa = (event) => {
         let formInsertMahasiswa = { ...this.state.insertMahasiswa };
-        let timestamp = new Date().getTime();
         formInsertMahasiswa['id'] = formInsertMahasiswa.nim
+        // formInsertMahasiswa['time']=new Date()
         formInsertMahasiswa[event.target.name] = event.target.value;
         this.setState({
             insertMahasiswa: formInsertMahasiswa
@@ -49,7 +49,7 @@ class ListMahasiswa extends Component {
     }
 
     handleTombolSimpan = () => {
-        fetch('http://localhost:3002/mahasiswa', {
+        fetch('http://localhost:3001/mahasiswa', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -100,6 +100,10 @@ class ListMahasiswa extends Component {
                                     <option value='Lulus'>Lulus</option>
                                 </select>
                             </div>
+                            <div className='col-md-12'>
+                                <label htmlFor='time' className='form-label'>Time</label>
+                                <input type='date' className='form-control' id='time' name='time' onChange={this.handleTambahMahasiswa} />
+                            </div>
                             <div>
                                 <br />
                                 <center>
@@ -123,6 +127,7 @@ class ListMahasiswa extends Component {
                                 hp={mahasiswa.hp}
                                 angkatan={mahasiswa.angkatan}
                                 status={mahasiswa.status}
+                                time={mahasiswa.time}
                                 hapus={this.handleHapusMahasiswa} />
                         })
                     }

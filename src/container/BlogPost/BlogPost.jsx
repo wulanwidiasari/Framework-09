@@ -1,106 +1,60 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import './BlogPost.css';
 import Post from "../../component/BlogSpot/Post";
+import API from "../../services";
 
-
-// class BlogPost extends Component{
-//     render(){
-//         return(
-//             <p>Blog Artikel</p>
-//         )  
-//     }
-// }
-
-// class BlogPost extends Component{
-//     render(){
-//         return(
-//             <div class="post-artikel">
-//                 <h2>Daftar Artikel</h2>
-//                 <div class="artikel">
-//                     <div class="gambar-artikel">
-//                         <img src="http://placeimg.com/640/480/animals" alt="Gambar Tumbnail Artikel"></img>
-//                     </div>
-//                     <div class="konten-artikel">
-//                         <div class="judul-artikel">Judul Artikel</div>
-//                         <p class="isi-artikel">Isi Artikel</p>
-//                     </div>
-//                 </div>
-//             </div>
-//         )  
-//     }
-// }
-
-// class BlogPost extends Component{
-//     render(){
-//         return(
-//             <div class="post-artikel">
-//             <h2>Daftar Artikel</h2>
-//             <Post judul="JTI Polinema" isi="Jurusan Teknologi Informasi - Polteknik Negeri Malang"></Post>
-//             </div>
-//         )  
-//     }
-// }
-
-class BlogPost extends Component{
-    state ={                    // komponen state dari React untuk statefull component
+class BlogPost extends Component {
+    state = {                    // komponen state dari React untuk statefull component
         listArtikel: [],         // variabel arrat yang digunakan untuk menyimpan data API
         insertArtikel: [],
-            userId:1,
-            id:1,
-            title:"",
-            body:""
+        userId: 1,
+        id: 1,
+        title: "",
+        body: ""
     }
 
-    ambilDataDariServerAPI=()=>{
-        fetch('http://localhost:3001/posts')        // alamat URL API yang ingin kita ambil datanya
-        .then(response => response.json())          // ubah response data dari URL API mrnjadi sebuah data json
-        .then(jsonHasilAmbilDariAPI => {            // data json hasil ambil dari API kita masukkan ke dalam listArtikel pada state
+    ambilDataDariServerAPI = () => {
+        API.getNewsBlog().then(result => {
             this.setState({
-                listArtikel:jsonHasilAmbilDariAPI
+                listArtikel: result
             })
         })
     }
 
-    componentDidMount(){                // komponen untuk mengecek ketika component telah di mount ing, maka panggil API
+    componentDidMount() {                // komponen untuk mengecek ketika component telah di mount ing, maka panggil API
         this.ambilDataDariServerAPI()   // ambil data dari server API lokal
     }
 
-    handleHapusArtikel = (data) =>{
-        fetch('http://localhost:3001/posts/${data}', {method:'DELETE'})
-        .then(res => {
-            this.ambilDataDariServerAPI()
+    handleHapusArtikel = (data) => {
+        API.deleteNewsBlog(data).then((response) =>{
+            this.ambilDataDariServerAPI();
         })
     }
-    handleTambahArtikel=(event)=>{
-        let formInsertArtikel={...this.state.insertArtikel};
+    handleTambahArtikel = (event) => {
+        let formInsertArtikel = { ...this.state.insertArtikel };
         let timestamp = new Date().getTime();
         formInsertArtikel['id'] = timestamp;
         formInsertArtikel[event.target.name] = event.target.value;
         this.setState({
-            insertArtikel:formInsertArtikel
+            insertArtikel: formInsertArtikel
         });
     }
-    handleTombolSimpan=()=>{
-        fetch('http://localhost:3001/posts',{
-            method:'post',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state.insertArtikel)
-        })
-            .then((Response)=>{
-               this.ambilDataDariServerAPI(); 
+
+    handleTombolSimpan = () => {
+        API.postNewsBlog(this.state.insertArtikel)
+            .then((response) => {
+                this.ambilDataDariServerAPI();
             });
     }
-    render(){
-        return(
+
+    render() {
+        return (
             <div className="post-artikel">
                 <div className="form pb-2 border-buttom">
                     <div className="form-group row">
                         <label htmlFor="title" className="col-sm-2 col-form-label">Judul</label>
                         <div className="col-sm-10">
-                            <input type="text" className="form-control" id="title" name="title" onChange={this.handleTambahArtikel}/>
+                            <input type="text" className="form-control" id="title" name="title" onChange={this.handleTambahArtikel} />
                         </div>
                     </div>
                     <div className="form-group row">
@@ -113,8 +67,8 @@ class BlogPost extends Component{
                 </div>
                 <h2>Daftar Artikel</h2>
                 {
-                    this.state.listArtikel.map(artikel =>{
-                        return <Post key={artikel.id} judul={artikel.title} isi={artikel.body} idArtikel={artikel.id} hapusArtikel={this.handleHapusArtikel}/>
+                    this.state.listArtikel.map(artikel => {
+                        return <Post key={artikel.id} judul={artikel.title} isi={artikel.body} idArtikel={artikel.id} hapusArtikel={this.handleHapusArtikel} />
                     })
                 }
             </div>
